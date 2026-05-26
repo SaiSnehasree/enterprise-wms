@@ -2,6 +2,7 @@ package com.sneha.wms.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
 @Entity
 @Table(name = "warehouses")
@@ -17,4 +18,7 @@ public class Warehouse {
     private String location;
 
     private Integer capacity;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<InventoryItem> inventoryItems;
 }

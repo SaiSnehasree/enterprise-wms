@@ -2,6 +2,7 @@ package com.sneha.wms.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -21,4 +22,7 @@ public class Product {
     private Double price;
 
     private Integer quantity;
+
+    @OneToMany(mappedBy = "product")
+    private List<InventoryItem> inventoryItems;
 }
