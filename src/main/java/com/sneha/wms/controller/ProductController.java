@@ -43,4 +43,18 @@ public class ProductController {
     public String testApi() {
         return "WMS Product API Working!";
     }
+
+    @GetMapping("/add-sample")
+    public Product addSampleProduct() {
+
+        Product product = new Product();
+
+        product.setSku("SKU001");
+        product.setProductName("Laptop");
+        product.setDescription("Dell Gaming Laptop");
+        product.setPrice(75000.0);
+        product.setQuantity(10);
+
+        return productService.addProduct(product);
+    }
 }
