@@ -66,4 +66,21 @@ public class WarehouseController {
         return warehouseService
                 .updateWarehouse(1L, warehouse);
     }
+    @GetMapping("/{id}")
+    public Warehouse getWarehouseById(
+            @PathVariable Long id) {
+
+        return warehouseService
+                .getWarehouseById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteWarehouse(
+            @PathVariable Long id) {
+
+        warehouseService
+                .deleteWarehouse(id);
+
+        return "Warehouse deleted successfully!";
+    }
 }

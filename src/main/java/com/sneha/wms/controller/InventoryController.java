@@ -49,4 +49,41 @@ public class InventoryController {
 
         return inventoryService.addInventory(item);
     }
+    @GetMapping("/{id}")
+    public InventoryItem getInventoryById(
+            @PathVariable Long id) {
+
+        return inventoryService
+                .getInventoryById(id);
+    }
+
+    @PutMapping("/{id}")
+    public InventoryItem updateInventory(
+            @PathVariable Long id,
+            @RequestBody InventoryItem item) {
+
+        return inventoryService
+                .updateInventory(id, item);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteInventory(
+            @PathVariable Long id) {
+
+        inventoryService
+                .deleteInventory(id);
+
+        return "Inventory deleted successfully!";
+    }
+    @GetMapping("/update-sample")
+    public InventoryItem updateSampleInventory() {
+
+        InventoryItem item = new InventoryItem();
+
+        item.setStockQuantity(50);
+        item.setStatus("In Stock");
+
+        return inventoryService
+                .updateInventory(1L, item);
+    }
 }
