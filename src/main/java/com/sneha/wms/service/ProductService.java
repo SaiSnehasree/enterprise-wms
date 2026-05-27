@@ -4,7 +4,7 @@ import com.sneha.wms.entity.Product;
 import com.sneha.wms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.sneha.wms.exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
@@ -25,7 +25,12 @@ public class ProductService {
 
     // Get Product By Id
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
+
+        return productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Product not found with id: "
+                                        + id));
     }
     public Product updateProduct(Long id, Product updatedProduct) {
 
