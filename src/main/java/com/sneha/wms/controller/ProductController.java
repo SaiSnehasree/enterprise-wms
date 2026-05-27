@@ -5,6 +5,7 @@ import com.sneha.wms.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.sneha.wms.dto.ProductDTO;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,10 +17,13 @@ public class ProductController {
 
     // Add Product
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
-    }
+    public Product addProduct(
+            @Valid
+            @RequestBody Product product) {
 
+        return productService
+                .addProduct(product);
+    }
     // Get All Products
     @GetMapping
     public List<Product> getAllProducts() {
@@ -61,9 +65,12 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateProduct(
             @PathVariable Long id,
+
+            @Valid
             @RequestBody Product product) {
 
-        return productService.updateProduct(id, product);
+        return productService
+                .updateProduct(id, product);
     }
 
     @GetMapping("/update-sample")
@@ -85,5 +92,17 @@ public class ProductController {
 
         return productService
                 .getAllProductDTOs();
+    }
+    @GetMapping("/validation-test")
+    public Product validationTest() {
+
+        Product product = new Product();
+
+        product.setProductName("");
+        product.setPrice(-100.0);
+        product.setQuantity(-5);
+
+        return productService
+                .addProduct(product);
     }
 }
