@@ -57,4 +57,27 @@ public class ProductController {
 
         return productService.addProduct(product);
     }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(
+            @PathVariable Long id,
+            @RequestBody Product product) {
+
+        return productService.updateProduct(id, product);
+    }
+
+    @GetMapping("/update-sample")
+    public Product updateSampleProduct() {
+
+        Product updatedProduct = new Product();
+
+        updatedProduct.setSku("SKU001");
+        updatedProduct.setProductName("Dell Gaming Laptop Pro");
+        updatedProduct.setDescription("Updated Gaming Laptop");
+        updatedProduct.setPrice(90000.0);
+        updatedProduct.setQuantity(20);
+
+        return productService.updateProduct(
+                1L, updatedProduct);
+    }
 }
