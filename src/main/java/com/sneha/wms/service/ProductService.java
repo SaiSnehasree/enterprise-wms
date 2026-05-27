@@ -5,6 +5,9 @@ import com.sneha.wms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sneha.wms.exception.ResourceNotFoundException;
+import java.util.ArrayList;
+import com.sneha.wms.dto.ProductDTO;
+
 import java.util.List;
 
 @Service
@@ -21,6 +24,31 @@ public class ProductService {
     // Get All Products
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+    public List<ProductDTO> getAllProductDTOs() {
+
+        List<Product> products =
+                productRepository.findAll();
+
+        List<ProductDTO> productDTOList =
+                new ArrayList<>();
+
+        for (Product product : products) {
+
+            ProductDTO dto =
+                    new ProductDTO();
+
+            dto.setId(product.getId());
+            dto.setProductName(
+                    product.getProductName());
+
+            dto.setPrice(
+                    product.getPrice());
+
+            productDTOList.add(dto);
+        }
+
+        return productDTOList;
     }
 
     // Get Product By Id

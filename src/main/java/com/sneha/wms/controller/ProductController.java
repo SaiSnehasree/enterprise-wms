@@ -4,7 +4,7 @@ import com.sneha.wms.entity.Product;
 import com.sneha.wms.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.sneha.wms.dto.ProductDTO;
 import java.util.List;
 
 @RestController
@@ -79,5 +79,11 @@ public class ProductController {
 
         return productService.updateProduct(
                 1L, updatedProduct);
+    }
+    @GetMapping("/dto")
+    public List<ProductDTO> getAllProductDTOs() {
+
+        return productService
+                .getAllProductDTOs();
     }
 }
