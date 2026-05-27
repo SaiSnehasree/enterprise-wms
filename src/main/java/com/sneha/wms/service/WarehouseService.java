@@ -22,4 +22,30 @@ public class WarehouseService {
     public List<Warehouse> getAllWarehouses() {
         return warehouseRepository.findAll();
     }
+
+    public Warehouse updateWarehouse(
+            Long id,
+            Warehouse updatedWarehouse) {
+
+        Warehouse existingWarehouse =
+                warehouseRepository.findById(id)
+                        .orElse(null);
+
+        if (existingWarehouse != null) {
+
+            existingWarehouse.setWarehouseName(
+                    updatedWarehouse.getWarehouseName());
+
+            existingWarehouse.setLocation(
+                    updatedWarehouse.getLocation());
+
+            existingWarehouse.setCapacity(
+                    updatedWarehouse.getCapacity());
+
+            return warehouseRepository
+                    .save(existingWarehouse);
+        }
+
+        return null;
+    }
 }

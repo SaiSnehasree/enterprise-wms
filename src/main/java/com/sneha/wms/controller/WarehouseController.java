@@ -43,4 +43,27 @@ public class WarehouseController {
 
         return warehouseService.addWarehouse(warehouse);
     }
+    @PutMapping("/{id}")
+    public Warehouse updateWarehouse(
+            @PathVariable Long id,
+            @RequestBody Warehouse warehouse) {
+
+        return warehouseService.updateWarehouse(
+                id, warehouse);
+    }
+    @GetMapping("/update-sample")
+    public Warehouse updateSampleWarehouse() {
+
+        Warehouse warehouse = new Warehouse();
+
+        warehouse.setWarehouseName(
+                "Central Warehouse");
+
+        warehouse.setLocation("Bangalore");
+
+        warehouse.setCapacity(2000);
+
+        return warehouseService
+                .updateWarehouse(1L, warehouse);
+    }
 }
