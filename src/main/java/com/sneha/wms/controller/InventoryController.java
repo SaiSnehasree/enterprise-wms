@@ -4,7 +4,8 @@ import com.sneha.wms.entity.InventoryItem;
 import com.sneha.wms.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.sneha.wms.entity.Product;
+import com.sneha.wms.entity.Warehouse;
 import java.util.List;
 
 @RestController
@@ -29,5 +30,23 @@ public class InventoryController {
     @GetMapping("/test")
     public String inventoryTest() {
         return "Inventory API Working!";
+    }
+    @GetMapping("/add-sample")
+    public InventoryItem addSampleInventory() {
+
+        Product product = new Product();
+        product.setId(1L);
+
+        Warehouse warehouse = new Warehouse();
+        warehouse.setId(1L);
+
+        InventoryItem item = new InventoryItem();
+
+        item.setStockQuantity(10);
+        item.setStatus("Available");
+        item.setProduct(product);
+        item.setWarehouse(warehouse);
+
+        return inventoryService.addInventory(item);
     }
 }
