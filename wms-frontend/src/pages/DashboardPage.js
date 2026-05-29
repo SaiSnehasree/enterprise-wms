@@ -1,12 +1,6 @@
 import { motion } from "framer-motion";
-import {
-    LayoutDashboard,
-    Package,
-    Warehouse,
-    ClipboardList,
-    LogOut,
-    ChevronRight,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import Sidebar from "../components/Sidebar";
 
 import {
     AreaChart,
@@ -23,14 +17,11 @@ import {
     useState,
 } from "react";
 
-import {
-    useNavigate,
-} from "react-router-dom";
+
 
 function DashboardPage() {
 
-    const navigate =
-        useNavigate();
+
 
     const [
         productCount,
@@ -129,62 +120,7 @@ function DashboardPage() {
             <div className="absolute top-[40%] left-[35%] w-[300px] h-[300px] bg-fuchsia-500/10 blur-[140px] rounded-full" />
 
             {/* Sidebar */}
-            <motion.div
-                initial={{
-                    x: -80,
-                    opacity: 0,
-                }}
-                animate={{
-                    x: 0,
-                    opacity: 1,
-                }}
-                className="w-24 hover:w-72 transition-all duration-500
-        border-r border-white/10
-        bg-white/[0.03]
-        backdrop-blur-3xl
-        flex flex-col items-center
-        py-10 group z-20"
-            >
-
-                <div className="mb-12">
-                    <div
-                        className="w-14 h-14 rounded-2xl
-            bg-gradient-to-br
-            from-violet-500
-            to-slate-400
-            shadow-[0_0_50px_rgba(168,85,247,0.5)]"
-                    />
-                </div>
-
-                <SidebarItem
-                    icon={<LayoutDashboard />}
-                    text="Dashboard"
-                />
-
-                <SidebarItem
-                    icon={<Package />}
-                    text="Products"
-                    onClick={() =>
-                        navigate("/products")
-                    }
-                />
-
-                <SidebarItem
-                    icon={<Warehouse />}
-                    text="Warehouses"
-                />
-
-                <SidebarItem
-                    icon={<ClipboardList />}
-                    text="Inventory"
-                />
-
-                <SidebarItem
-                    icon={<LogOut />}
-                    text="Logout"
-                />
-
-            </motion.div>
+            <Sidebar />
 
             {/* Main Content */}
             <div className="flex-1 p-12 relative z-10">
@@ -428,39 +364,7 @@ function DashboardPage() {
     );
 }
 
-function SidebarItem({
-                         icon,
-                         text,
-                         onClick,
-                     }) {
-    return (
-        <motion.div
-            onClick={onClick}
-            whileHover={{
-                x: 10,
-            }}
-            className="flex items-center
-      w-full px-7 py-5
-      cursor-pointer
-      text-slate-300
-      hover:text-white
-      hover:bg-white/[0.04]
-      transition-all"
-        >
-            <div className="min-w-[24px]">
-                {icon}
-            </div>
-
-            <span
-                className="ml-5 whitespace-nowrap
-        opacity-0 group-hover:opacity-100
-        transition-all duration-500"
-            >
-        {text}
-      </span>
-        </motion.div>
-    );
-}
+// SidebarItem removed in favor of reusable Sidebar component
 
 function Activity({
                       title,

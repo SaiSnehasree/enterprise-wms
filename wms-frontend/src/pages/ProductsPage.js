@@ -9,6 +9,7 @@ import {
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Sidebar from "../components/Sidebar";
 
 function ProductsPage() {
 
@@ -275,14 +276,17 @@ function ProductsPage() {
                     )
         );
     return (
-        <div className="min-h-screen bg-[#03040A] text-white relative overflow-hidden p-10">
+        <div className="min-h-screen bg-[#03040A] text-white relative overflow-hidden flex">
 
             {/* Background Glow */}
             <div className="absolute top-[-180px] left-[-180px] w-[550px] h-[550px] bg-violet-700/20 blur-[180px] rounded-full" />
 
             <div className="absolute bottom-[-180px] right-[-180px] w-[500px] h-[500px] bg-fuchsia-500/10 blur-[180px] rounded-full" />
 
-            <div className="relative z-10">
+            {/* Sidebar */}
+            <Sidebar />
+
+            <div className="flex-1 p-10 relative z-10 overflow-y-auto h-screen">
 
                 {/* Hero */}
                 <motion.div
