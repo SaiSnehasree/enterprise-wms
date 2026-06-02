@@ -18,12 +18,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain
     securityFilterChain(
-            HttpSecurity http)
+            HttpSecurity http
+    )
             throws Exception {
 
         http
+
                 .csrf(csrf ->
-                        csrf.disable())
+                        csrf.disable()
+                )
 
                 .cors(
                         Customizer
@@ -34,7 +37,13 @@ public class SecurityConfig {
                         auth
 
                                 .requestMatchers(
-                                        "/auth/**",
+                                        "/auth/**"
+                                )
+
+                                .permitAll()
+
+                                // allow APIs for now
+                                .requestMatchers(
                                         "/products/**",
                                         "/warehouse/**",
                                         "/inventory/**"
@@ -43,12 +52,8 @@ public class SecurityConfig {
                                 .permitAll()
 
                                 .anyRequest()
-                                .authenticated()
-                )
 
-                .httpBasic(
-                        Customizer
-                                .withDefaults()
+                                .authenticated()
                 );
 
         return http.build();

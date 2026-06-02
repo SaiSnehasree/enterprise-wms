@@ -8,22 +8,55 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
-    @GetMapping("/login")
-    public Map<String, String> login() {
+    @PostMapping("/login")
+    public Map<String, String> login(
+            @RequestBody
+            Map<String, String> request
+    ) {
 
-        String token =
-                JwtUtil.generateToken(
-                        "user");
+        String username =
+                request.get(
+                        "username"
+                );
 
-        Map<String, String> response =
-                new HashMap<>();
+        String password =
+                request.get(
+                        "password"
+                );
 
-        response.put(
-                "token",
-                token);
+        if (
+                "admin".equals(
+                        username
+                )
+                        &&
+                        "admin123".equals(
+                                password
+                        )
+        ) {
 
-        return response;
+            String token =
+                    JwtUtil
+                            .generateToken(
+                                    username
+                            );
+
+            Map<String, String>
+                    response =
+                    new HashMap<>();
+
+            response.put(
+                    "token",
+                    token
+            );
+
+            return response;
+        }
+
+        throw new RuntimeException(
+                "Invalid Credentials"
+        );
     }
 }
