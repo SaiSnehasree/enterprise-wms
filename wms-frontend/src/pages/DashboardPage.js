@@ -12,16 +12,20 @@ import {
 } from "recharts";
 
 import axios from "axios";
+
 import {
     useEffect,
     useState,
 } from "react";
 
-
+import {
+    useNavigate,
+} from "react-router-dom";
 
 function DashboardPage() {
 
-
+    const navigate =
+        useNavigate();
 
     const [
         productCount,
@@ -89,18 +93,22 @@ function DashboardPage() {
                         );
 
                     setProductCount(
-                        productResponse.data.length
+                        productResponse
+                            .data.length
                     );
 
                     setWarehouseCount(
-                        warehouseResponse.data.length
+                        warehouseResponse
+                            .data.length
                     );
 
                     setInventoryCount(
-                        inventoryResponse.data.length
+                        inventoryResponse
+                            .data.length
                     );
 
                 } catch (error) {
+
                     console.log(error);
                 }
             };
@@ -109,7 +117,18 @@ function DashboardPage() {
 
     }, []);
 
+    const handleLogout =
+        () => {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+            navigate("/");
+        };
+
     return (
+
         <div className="min-h-screen bg-[#03040A] text-white overflow-hidden relative flex">
 
             {/* Background Glow */}
@@ -124,6 +143,88 @@ function DashboardPage() {
 
             {/* Main Content */}
             <div className="flex-1 p-12 relative z-10">
+
+                {/* Luxury Top Right Profile */}
+                <div className="flex justify-end mb-8">
+
+                    <motion.div
+                        whileHover={{
+                            scale: 1.02,
+                        }}
+                        className="
+                        rounded-[30px]
+                        border border-white/10
+                        bg-white/[0.04]
+                        backdrop-blur-3xl
+                        px-5 py-4
+                        flex items-center gap-5
+                        shadow-[0_0_50px_rgba(168,85,247,0.08)]"
+                    >
+
+                        {/* Avatar */}
+                        <div
+                            className="
+                            w-14 h-14
+                            rounded-[22px]
+                            bg-gradient-to-br
+                            from-violet-500
+                            via-fuchsia-500
+                            to-violet-700
+                            flex items-center
+                            justify-center
+                            text-white
+                            font-bold
+                            text-xl
+                            shadow-[0_0_35px_rgba(168,85,247,0.35)]"
+                        >
+                            A
+                        </div>
+
+                        {/* User Details */}
+                        <div>
+
+                            <div className="flex items-center gap-2">
+
+                                <h3 className="font-semibold text-lg text-white">
+                                    Admin
+                                </h3>
+
+                                <div
+                                    className="
+                                    w-2 h-2
+                                    rounded-full
+                                    bg-emerald-400"
+                                />
+
+                            </div>
+
+                            <p className="text-slate-400 text-sm">
+                                System Administrator
+                            </p>
+
+                        </div>
+
+                        {/* Divider */}
+                        <div className="h-10 w-[1px] bg-white/10" />
+
+                        {/* Logout */}
+                        <button
+                            onClick={handleLogout}
+                            className="
+                            px-5 py-3
+                            rounded-[18px]
+                            bg-red-500/10
+                            text-red-300
+                            hover:bg-red-500/20
+                            transition-all
+                            font-medium"
+                        >
+                            Logout
+                        </button>
+
+                    </motion.div>
+
+                </div>
 
                 {/* Hero Section */}
                 <motion.div
@@ -149,24 +250,26 @@ function DashboardPage() {
                         </p>
 
                         <h1
-                            className="text-[95px]
-              font-black
-              leading-[0.95]
-              tracking-[-3px]"
+                            className="
+                            text-[95px]
+                            font-black
+                            leading-[0.95]
+                            tracking-[-3px]"
                         >
                             Warehouse
                             <br />
 
                             <span
-                                className="bg-gradient-to-r
-                from-violet-400
-                via-fuchsia-300
-                to-slate-200
-                bg-clip-text
-                text-transparent"
+                                className="
+                                bg-gradient-to-r
+                                from-violet-400
+                                via-fuchsia-300
+                                to-slate-200
+                                bg-clip-text
+                                text-transparent"
                             >
-                Intelligence
-              </span>
+                                Intelligence
+                            </span>
 
                             <br />
                             System
@@ -175,14 +278,15 @@ function DashboardPage() {
                         <p className="text-slate-400 text-xl mt-8 max-w-2xl leading-9">
                             A futuristic enterprise control
                             center to manage products,
-                            inventory, analytics, warehouse
-                            operations and intelligent stock
-                            movement in real-time.
+                            inventory, analytics,
+                            warehouse operations and
+                            intelligent stock movement
+                            in real-time.
                         </p>
 
                     </div>
 
-                    {/* Floating Stats Panel */}
+                    {/* Live Control */}
                     <motion.div
                         animate={{
                             y: [0, -12, 0],
@@ -191,38 +295,47 @@ function DashboardPage() {
                             repeat: Infinity,
                             duration: 5,
                         }}
-                        className="w-[420px]
-            rounded-[40px]
-            border border-white/10
-            bg-white/[0.04]
-            backdrop-blur-3xl
-            p-8 shadow-2xl"
+                        className="
+                        w-[420px]
+                        rounded-[40px]
+                        border border-white/10
+                        bg-white/[0.04]
+                        backdrop-blur-3xl
+                        p-8 shadow-2xl"
                     >
 
                         <div className="flex justify-between items-center">
+
                             <h2 className="text-2xl font-semibold">
                                 Live Control
                             </h2>
 
                             <ChevronRight />
+
                         </div>
 
                         <div className="grid grid-cols-2 gap-5 mt-8">
 
                             {stats.map(
-                                (item, index) => (
+                                (
+                                    item,
+                                    index
+                                ) => (
+
                                     <motion.div
+                                        key={index}
                                         whileHover={{
                                             scale: 1.05,
                                         }}
-                                        key={index}
-                                        className="rounded-[28px]
-                  border border-white/10
-                  bg-gradient-to-br
-                  from-white/[0.08]
-                  to-white/[0.03]
-                  p-6"
+                                        className="
+                                        rounded-[28px]
+                                        border border-white/10
+                                        bg-gradient-to-br
+                                        from-white/[0.08]
+                                        to-white/[0.03]
+                                        p-6"
                                     >
+
                                         <p className="text-slate-400">
                                             {item.title}
                                         </p>
@@ -230,30 +343,35 @@ function DashboardPage() {
                                         <h3 className="text-4xl font-bold mt-4">
                                             {item.value}
                                         </h3>
+
                                     </motion.div>
-                                ))}
+                                )
+                            )}
 
                         </div>
+
                     </motion.div>
 
                 </motion.div>
 
-                {/* Analytics Section */}
+                {/* Analytics */}
                 <div className="grid grid-cols-3 gap-8 mt-14">
 
                     {/* Chart */}
                     <motion.div
-                        className="col-span-2
-            rounded-[40px]
-            border border-white/10
-            bg-white/[0.04]
-            backdrop-blur-3xl
-            p-8"
+                        className="
+                        col-span-2
+                        rounded-[40px]
+                        border border-white/10
+                        bg-white/[0.04]
+                        backdrop-blur-3xl
+                        p-8"
                     >
 
                         <div className="flex justify-between mb-8">
 
                             <div>
+
                                 <h2 className="text-3xl font-bold">
                                     Inventory Flow
                                 </h2>
@@ -261,11 +379,15 @@ function DashboardPage() {
                                 <p className="text-slate-400 mt-2">
                                     Real-time stock movement
                                 </p>
+
                             </div>
 
                             <div
-                                className="px-5 py-2 rounded-2xl
-                bg-violet-500/20 text-violet-300"
+                                className="
+                                px-5 py-2
+                                rounded-2xl
+                                bg-violet-500/20
+                                text-violet-300"
                             >
                                 Live Analytics
                             </div>
@@ -276,6 +398,7 @@ function DashboardPage() {
                             width="100%"
                             height={300}
                         >
+
                             <AreaChart data={data}>
 
                                 <defs>
@@ -305,9 +428,7 @@ function DashboardPage() {
                                     stroke="#888"
                                 />
 
-                                <YAxis
-                                    stroke="#888"
-                                />
+                                <YAxis stroke="#888" />
 
                                 <Tooltip />
 
@@ -320,74 +441,16 @@ function DashboardPage() {
                                 />
 
                             </AreaChart>
+
                         </ResponsiveContainer>
-
-                    </motion.div>
-
-                    {/* Activity */}
-                    <motion.div
-                        className="rounded-[40px]
-            border border-white/10
-            bg-white/[0.04]
-            backdrop-blur-3xl
-            p-8"
-                    >
-                        <h2 className="text-2xl font-bold">
-                            Live Activity
-                        </h2>
-
-                        <div className="space-y-5 mt-8">
-
-                            <Activity
-                                title="Warehouse Updated"
-                                time="2 mins ago"
-                            />
-
-                            <Activity
-                                title="Inventory Added"
-                                time="10 mins ago"
-                            />
-
-                            <Activity
-                                title="Low Stock Alert"
-                                time="15 mins ago"
-                            />
-
-                        </div>
 
                     </motion.div>
 
                 </div>
 
             </div>
+
         </div>
-    );
-}
-
-// SidebarItem removed in favor of reusable Sidebar component
-
-function Activity({
-                      title,
-                      time,
-                  }) {
-    return (
-        <motion.div
-            whileHover={{
-                x: 5,
-            }}
-            className="rounded-3xl
-      border border-white/10
-      bg-white/[0.04]
-      p-5"
-        >
-            <h3 className="font-semibold">
-                {title}
-            </h3>
-
-            <p className="text-slate-400 mt-2">
-                {time}
-            </p>
-        </motion.div>
     );
 }
 

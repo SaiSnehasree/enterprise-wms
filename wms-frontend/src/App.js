@@ -4,37 +4,82 @@ import {
     Route,
 } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage";
-import DashboardPage from "./pages/DashboardPage";
-import ProductsPage from "./pages/ProductsPage";
-import WarehousePage from "./pages/WarehousePage";
-import InventoryPage from "./pages/InventoryPage";
+import LoginPage
+    from "./pages/LoginPage";
+
+import DashboardPage
+    from "./pages/DashboardPage";
+
+import ProductsPage
+    from "./pages/ProductsPage";
+
+import WarehousePage
+    from "./pages/WarehousePage";
+
+import InventoryPage
+    from "./pages/InventoryPage";
+
+import ProtectedRoute
+    from "./components/ProtectedRoute";
 
 function App() {
+
     return (
+
         <BrowserRouter>
+
             <Routes>
+
+                {/* Login */}
                 <Route
                     path="/"
-                    element={<LoginPage />}
+                    element={
+                        <LoginPage />
+                    }
                 />
+
+                {/* Dashboard */}
                 <Route
                     path="/dashboard"
-                    element={<DashboardPage />}
+                    element={
+                        <ProtectedRoute>
+                            <DashboardPage />
+                        </ProtectedRoute>
+                    }
                 />
+
+                {/* Products */}
                 <Route
                     path="/products"
-                    element={<ProductsPage />}
+                    element={
+                        <ProtectedRoute>
+                            <ProductsPage />
+                        </ProtectedRoute>
+                    }
                 />
+
+                {/* Warehouse */}
                 <Route
                     path="/warehouse"
-                    element={<WarehousePage />}
+                    element={
+                        <ProtectedRoute>
+                            <WarehousePage />
+                        </ProtectedRoute>
+                    }
                 />
+
+                {/* Inventory */}
                 <Route
                     path="/inventory"
-                    element={<InventoryPage />}
+                    element={
+                        <ProtectedRoute>
+                            <InventoryPage />
+                        </ProtectedRoute>
+                    }
                 />
+
             </Routes>
+
         </BrowserRouter>
     );
 }

@@ -13,34 +13,44 @@ function LoginPage() {
     const [password, setPassword] =
         useState("");
 
-    const handleLogin = async () => {
+    const handleLogin =
+        async () => {
 
-        try {
+            try {
 
-            const response =
-                await axios.get(
-                    "http://localhost:8080/auth/login"
+                const response =
+                    await axios.post(
+                        "http://localhost:8080/auth/login",
+                        {
+                            username:
+                            username,
+
+                            password:
+                            password,
+                        }
+                    );
+
+                const token =
+                    response.data.token;
+
+                localStorage.setItem(
+                    "token",
+                    token
                 );
 
-            const token =
-                response.data.token;
+                navigate(
+                    "/dashboard"
+                );
 
-            localStorage.setItem(
-                "token",
-                token
-            );
+            } catch (error) {
 
-            navigate("/dashboard");
+                alert(
+                    "Invalid Username or Password ❌"
+                );
 
-        } catch (error) {
-
-            alert(
-                "Login Failed ❌"
-            );
-
-            console.log(error);
-        }
-    };
+                console.log(error);
+            }
+        };
 
     return (
         <div className="min-h-screen bg-[#03040A] text-white flex overflow-hidden relative">
