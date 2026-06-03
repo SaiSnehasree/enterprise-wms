@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, AlertTriangle } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 
 import {
@@ -24,8 +24,7 @@ import {
 
 function DashboardPage() {
 
-    const navigate =
-        useNavigate();
+    const navigate = useNavigate();
 
     const [
         productCount,
@@ -42,6 +41,16 @@ function DashboardPage() {
         setInventoryCount,
     ] = useState(0);
 
+    const [
+        lowStockItems,
+        setLowStockItems,
+    ] = useState([]);
+
+    const [
+        analyticsData,
+        setAnalyticsData,
+    ] = useState([]);
+
     const stats = [
         {
             title: "Products",
@@ -57,17 +66,8 @@ function DashboardPage() {
         },
         {
             title: "Low Stock",
-            value: "08",
+            value: lowStockItems.length,
         },
-    ];
-
-    const data = [
-        { name: "Mon", stock: 240 },
-        { name: "Tue", stock: 320 },
-        { name: "Wed", stock: 280 },
-        { name: "Thu", stock: 450 },
-        { name: "Fri", stock: 400 },
-        { name: "Sat", stock: 520 },
     ];
 
     useEffect(() => {
@@ -92,19 +92,34 @@ function DashboardPage() {
                             "http://localhost:8080/inventory"
                         );
 
+                    const lowStockResponse =
+                        await axios.get(
+                            "http://localhost:8080/inventory/low-stock"
+                        );
+
+                    const analyticsResponse =
+                        await axios.get(
+                            "http://localhost:8080/inventory/warehouse-analytics"
+                        );
+
                     setProductCount(
-                        productResponse
-                            .data.length
+                        productResponse.data.length
                     );
 
                     setWarehouseCount(
-                        warehouseResponse
-                            .data.length
+                        warehouseResponse.data.length
                     );
 
                     setInventoryCount(
-                        inventoryResponse
-                            .data.length
+                        inventoryResponse.data.length
+                    );
+
+                    setLowStockItems(
+                        lowStockResponse.data
+                    );
+
+                    setAnalyticsData(
+                        analyticsResponse.data
                     );
 
                 } catch (error) {
@@ -138,13 +153,11 @@ function DashboardPage() {
 
             <div className="absolute top-[40%] left-[35%] w-[300px] h-[300px] bg-fuchsia-500/10 blur-[140px] rounded-full" />
 
-            {/* Sidebar */}
             <Sidebar />
 
-            {/* Main Content */}
             <div className="flex-1 p-12 relative z-10">
 
-                {/* Luxury Top Right Profile */}
+                {/* Top Profile */}
                 <div className="flex justify-end mb-8">
 
                     <motion.div
@@ -161,7 +174,6 @@ function DashboardPage() {
                         shadow-[0_0_50px_rgba(168,85,247,0.08)]"
                     >
 
-                        {/* Avatar */}
                         <div
                             className="
                             w-14 h-14
@@ -180,7 +192,6 @@ function DashboardPage() {
                             A
                         </div>
 
-                        {/* User Details */}
                         <div>
 
                             <div className="flex items-center gap-2">
@@ -204,10 +215,8 @@ function DashboardPage() {
 
                         </div>
 
-                        {/* Divider */}
                         <div className="h-10 w-[1px] bg-white/10" />
 
-                        {/* Logout */}
                         <button
                             onClick={handleLogout}
                             className="
@@ -242,47 +251,31 @@ function DashboardPage() {
                     className="flex justify-between items-center"
                 >
 
-                    {/* Left Side */}
                     <div className="max-w-3xl">
 
                         <p className="uppercase tracking-[8px] text-slate-400 mb-5">
                             Enterprise Platform
                         </p>
 
-                        <h1
-                            className="
-                            text-[95px]
-                            font-black
-                            leading-[0.95]
-                            tracking-[-3px]"
-                        >
+                        <h1 className="text-[95px] font-black leading-[0.95] tracking-[-3px]">
+
                             Warehouse
                             <br />
 
-                            <span
-                                className="
+                            <span className="
                                 bg-gradient-to-r
                                 from-violet-400
                                 via-fuchsia-300
                                 to-slate-200
                                 bg-clip-text
-                                text-transparent"
-                            >
+                                text-transparent">
+
                                 Intelligence
                             </span>
 
                             <br />
                             System
                         </h1>
-
-                        <p className="text-slate-400 text-xl mt-8 max-w-2xl leading-9">
-                            A futuristic enterprise control
-                            center to manage products,
-                            inventory, analytics,
-                            warehouse operations and
-                            intelligent stock movement
-                            in real-time.
-                        </p>
 
                     </div>
 
@@ -316,37 +309,32 @@ function DashboardPage() {
 
                         <div className="grid grid-cols-2 gap-5 mt-8">
 
-                            {stats.map(
-                                (
-                                    item,
-                                    index
-                                ) => (
+                            {stats.map((item, index) => (
 
-                                    <motion.div
-                                        key={index}
-                                        whileHover={{
-                                            scale: 1.05,
-                                        }}
-                                        className="
-                                        rounded-[28px]
-                                        border border-white/10
-                                        bg-gradient-to-br
-                                        from-white/[0.08]
-                                        to-white/[0.03]
-                                        p-6"
-                                    >
+                                <motion.div
+                                    key={index}
+                                    whileHover={{
+                                        scale: 1.05,
+                                    }}
+                                    className="
+                                    rounded-[28px]
+                                    border border-white/10
+                                    bg-gradient-to-br
+                                    from-white/[0.08]
+                                    to-white/[0.03]
+                                    p-6"
+                                >
 
-                                        <p className="text-slate-400">
-                                            {item.title}
-                                        </p>
+                                    <p className="text-slate-400">
+                                        {item.title}
+                                    </p>
 
-                                        <h3 className="text-4xl font-bold mt-4">
-                                            {item.value}
-                                        </h3>
+                                    <h3 className="text-4xl font-bold mt-4">
+                                        {item.value}
+                                    </h3>
 
-                                    </motion.div>
-                                )
-                            )}
+                                </motion.div>
+                            ))}
 
                         </div>
 
@@ -354,7 +342,7 @@ function DashboardPage() {
 
                 </motion.div>
 
-                {/* Analytics */}
+                {/* Analytics + Low Stock */}
                 <div className="grid grid-cols-3 gap-8 mt-14">
 
                     {/* Chart */}
@@ -373,17 +361,16 @@ function DashboardPage() {
                             <div>
 
                                 <h2 className="text-3xl font-bold">
-                                    Inventory Flow
+                                    Warehouse Analytics
                                 </h2>
 
                                 <p className="text-slate-400 mt-2">
-                                    Real-time stock movement
+                                    Real-time warehouse inventory
                                 </p>
 
                             </div>
 
-                            <div
-                                className="
+                            <div className="
                                 px-5 py-2
                                 rounded-2xl
                                 bg-violet-500/20
@@ -398,8 +385,7 @@ function DashboardPage() {
                             width="100%"
                             height={300}
                         >
-
-                            <AreaChart data={data}>
+                            <AreaChart data={analyticsData}>
 
                                 <defs>
                                     <linearGradient
@@ -433,6 +419,7 @@ function DashboardPage() {
                                 <Tooltip />
 
                                 <Area
+
                                     type="monotone"
                                     dataKey="stock"
                                     stroke="#a855f7"
@@ -441,8 +428,96 @@ function DashboardPage() {
                                 />
 
                             </AreaChart>
-
                         </ResponsiveContainer>
+
+                    </motion.div>
+
+                    {/* Low Stock Panel */}
+                    <motion.div
+                        whileHover={{
+                            scale: 1.01,
+                        }}
+                        className="
+                        rounded-[40px]
+                        border border-red-500/20
+                        bg-white/[0.04]
+                        backdrop-blur-3xl
+                        p-8
+                        h-full
+                        shadow-[0_0_60px_rgba(239,68,68,0.08)]"
+                    >
+
+                        <div className="flex items-center gap-3 mb-6">
+
+                            <AlertTriangle
+                                className="text-red-400"
+                            />
+
+                            <h2 className="text-2xl font-bold">
+                                Low Stock Alerts
+                            </h2>
+
+                        </div>
+
+                        <div className="space-y-4 max-h-[320px] overflow-y-auto">
+
+                            {lowStockItems.length > 0 ? (
+
+                                lowStockItems.map(
+                                    (item) => (
+
+                                        <motion.div
+                                            key={item.id}
+                                            whileHover={{
+                                                scale: 1.02,
+                                            }}
+                                            className="
+                                            rounded-[24px]
+                                            border border-red-500/20
+                                            bg-red-500/10
+                                            p-5"
+                                        >
+
+                                            <h3 className="font-semibold text-lg">
+                                                {
+                                                    item.product
+                                                        ?.productName
+                                                }
+                                            </h3>
+
+                                            <p className="text-red-300 mt-2">
+                                                Only {
+                                                item.stockQuantity
+                                            } left
+                                            </p>
+
+                                            <p className="text-slate-400 text-sm mt-2">
+                                                {
+                                                    item.warehouse
+                                                        ?.warehouseName
+                                                }
+                                            </p>
+
+                                        </motion.div>
+                                    )
+                                )
+
+                            ) : (
+
+                                <div className="
+                                    h-[250px]
+                                    flex items-center
+                                    justify-center
+                                    text-slate-400
+                                    text-center"
+                                >
+                                    All inventory
+                                    levels are healthy
+                                </div>
+
+                            )}
+
+                        </div>
 
                     </motion.div>
 
@@ -453,6 +528,5 @@ function DashboardPage() {
         </div>
     );
 }
-
 
 export default DashboardPage;
