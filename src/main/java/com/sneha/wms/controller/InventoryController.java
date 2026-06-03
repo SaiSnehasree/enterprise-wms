@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.sneha.wms.entity.Product;
 import com.sneha.wms.entity.Warehouse;
+
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/inventory")
@@ -17,40 +19,75 @@ public class InventoryController {
 
     // Add Inventory
     @PostMapping
-    public InventoryItem addInventory(@RequestBody InventoryItem item) {
-        return inventoryService.addInventory(item);
+    public InventoryItem addInventory(
+            @RequestBody InventoryItem item) {
+
+        return inventoryService
+                .addInventory(item);
     }
 
     // Get All Inventory
     @GetMapping
-    public List<InventoryItem> getAllInventory() {
-        return inventoryService.getAllInventory();
+    public List<InventoryItem>
+    getAllInventory() {
+
+        return inventoryService
+                .getAllInventory();
+    }
+
+    // LOW STOCK API
+    @GetMapping("/low-stock")
+    public List<InventoryItem>
+    getLowStockItems() {
+
+        return inventoryService
+                .getLowStockItems();
+    }
+
+    // WAREHOUSE ANALYTICS API
+    @GetMapping("/warehouse-analytics")
+    public List<Map<String, Object>>
+    getWarehouseAnalytics() {
+
+        return inventoryService
+                .getWarehouseAnalytics();
     }
 
     @GetMapping("/test")
     public String inventoryTest() {
+
         return "Inventory API Working!";
     }
-    @GetMapping("/add-sample")
-    public InventoryItem addSampleInventory() {
 
-        Product product = new Product();
+    @GetMapping("/add-sample")
+    public InventoryItem
+    addSampleInventory() {
+
+        Product product =
+                new Product();
+
         product.setId(1L);
 
-        Warehouse warehouse = new Warehouse();
+        Warehouse warehouse =
+                new Warehouse();
+
         warehouse.setId(1L);
 
-        InventoryItem item = new InventoryItem();
+        InventoryItem item =
+                new InventoryItem();
 
         item.setStockQuantity(10);
         item.setStatus("Available");
         item.setProduct(product);
         item.setWarehouse(warehouse);
 
-        return inventoryService.addInventory(item);
+        return inventoryService
+                .addInventory(item);
     }
+
     @GetMapping("/{id}")
-    public InventoryItem getInventoryById(
+    public InventoryItem
+    getInventoryById(
             @PathVariable Long id) {
 
         return inventoryService
@@ -58,7 +95,8 @@ public class InventoryController {
     }
 
     @PutMapping("/{id}")
-    public InventoryItem updateInventory(
+    public InventoryItem
+    updateInventory(
             @PathVariable Long id,
             @RequestBody InventoryItem item) {
 
@@ -75,10 +113,13 @@ public class InventoryController {
 
         return "Inventory deleted successfully!";
     }
-    @GetMapping("/update-sample")
-    public InventoryItem updateSampleInventory() {
 
-        InventoryItem item = new InventoryItem();
+    @GetMapping("/update-sample")
+    public InventoryItem
+    updateSampleInventory() {
+
+        InventoryItem item =
+                new InventoryItem();
 
         item.setStockQuantity(50);
         item.setStatus("In Stock");
