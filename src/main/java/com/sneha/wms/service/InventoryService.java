@@ -1,15 +1,22 @@
 package com.sneha.wms.service;
 
 import com.sneha.wms.entity.InventoryItem;
+import com.sneha.wms.entity.Product;
+import com.sneha.wms.entity.Warehouse;
 import com.sneha.wms.repository.InventoryItemRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.sneha.wms.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class InventoryService {
@@ -24,6 +31,68 @@ public class InventoryService {
 
         return inventoryItemRepository
                 .save(item);
+    }
+
+    // RECEIVE SHIPMENT
+    @Transactional
+    public InventoryItem receiveShipment(
+            Long productId,
+            Long warehouseId,
+            Integer quantity
+    ) {
+
+        Optional<InventoryItem>
+                existingInventory =
+                inventoryItemRepository
+                        .findByProductIdAndWarehouseId(
+                                productId,
+                                warehouseId
+                        );
+
+        // Inventory exists
+        if (existingInventory.isPresent()) {
+
+            InventoryItem item =
+                    existingInventory.get();
+
+            item.setStockQuantity(
+                    item.getStockQuantity()
+                            + quantity
+            );
+
+            return inventoryItemRepository
+                    .save(item);
+        }
+
+        // Create new inventory
+        InventoryItem newItem =
+                new InventoryItem();
+
+        Product product =
+                new Product();
+
+        product.setId(productId);
+
+        Warehouse warehouse =
+                new Warehouse();
+
+        warehouse.setId(warehouseId);
+
+        newItem.setProduct(product);
+        newItem.setWarehouse(
+                warehouse
+        );
+
+        newItem.setStockQuantity(
+                quantity
+        );
+
+        newItem.setStatus(
+                "Available"
+        );
+
+        return inventoryItemRepository
+                .save(newItem);
     }
 
     // Get All Inventory

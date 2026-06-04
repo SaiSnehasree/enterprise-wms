@@ -26,6 +26,22 @@ public class InventoryController {
                 .addInventory(item);
     }
 
+    // RECEIVE SHIPMENT
+    @GetMapping("/receive")
+    public InventoryItem receiveShipment(
+            @RequestParam Long productId,
+            @RequestParam Long warehouseId,
+            @RequestParam Integer quantity
+    ) {
+
+        return inventoryService
+                .receiveShipment(
+                        productId,
+                        warehouseId,
+                        quantity
+                );
+    }
+
     // Get All Inventory
     @GetMapping
     public List<InventoryItem>

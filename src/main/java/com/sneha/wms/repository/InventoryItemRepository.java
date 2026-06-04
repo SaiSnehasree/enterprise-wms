@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface InventoryItemRepository
         extends JpaRepository<InventoryItem, Long> {
@@ -25,4 +26,12 @@ public interface InventoryItemRepository
             """)
     List<Object[]>
     getWarehouseAnalytics();
+
+    // FIND INVENTORY BY
+    // PRODUCT + WAREHOUSE
+    Optional<InventoryItem>
+    findByProductIdAndWarehouseId(
+            Long productId,
+            Long warehouseId
+    );
 }
