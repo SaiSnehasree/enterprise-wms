@@ -1,5 +1,6 @@
 package com.sneha.wms.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,12 +10,19 @@ import lombok.Data;
 public class StorageBin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =
+            GenerationType.IDENTITY)
     private Long id;
 
     private String binCode;
 
-    private String section;
+    private Integer capacity;
 
-    private Integer maxCapacity;
+    private Boolean occupied;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "warehouse_id"
+    )
+    private Warehouse warehouse;
 }

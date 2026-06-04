@@ -11,7 +11,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Warehouse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy =
+                    GenerationType.IDENTITY
+    )
     private Long id;
 
     private String warehouseName;
@@ -20,7 +23,19 @@ public class Warehouse {
 
     private Integer capacity;
 
-    @OneToMany(mappedBy = "warehouse")
+    // INVENTORY ITEMS
+    @OneToMany(
+            mappedBy = "warehouse"
+    )
     @JsonIgnore
-    private List<InventoryItem> inventoryItems;
+    private List<InventoryItem>
+            inventoryItems;
+
+    // STORAGE BINS
+    @OneToMany(
+            mappedBy = "warehouse"
+    )
+    @JsonIgnore
+    private List<StorageBin>
+            storageBins;
 }

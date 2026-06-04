@@ -36,23 +36,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
 
+                                // PUBLIC AUTH APIs
                                 .requestMatchers(
                                         "/auth/**"
                                 )
-
                                 .permitAll()
 
-                                // allow APIs for now
+                                // PUBLIC APIs
                                 .requestMatchers(
                                         "/products/**",
                                         "/warehouse/**",
-                                        "/inventory/**"
+                                        "/inventory/**",
+                                        "/storage-bin/**"
                                 )
-
                                 .permitAll()
 
                                 .anyRequest()
-
                                 .authenticated()
                 );
 
