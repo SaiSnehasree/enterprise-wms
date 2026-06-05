@@ -74,13 +74,32 @@ public class StorageBinController {
     }
 
     // GET BIN BY ID
-    @GetMapping("/{id}")
-    public StorageBin getBinById(
-            @PathVariable Long id
+    // ADD SAMPLE BIN
+    @GetMapping("/add-sample/{code}")
+    public StorageBin addSampleBin(
+            @PathVariable String code
     ) {
 
+        StorageBin bin =
+                new StorageBin();
+
+        bin.setBinCode(code);
+
+        bin.setCapacity(100);
+
+        bin.setOccupied(false);
+
+        Warehouse warehouse =
+                new Warehouse();
+
+        warehouse.setId(1L);
+
+        bin.setWarehouse(
+                warehouse
+        );
+
         return storageBinService
-                .getBinById(id);
+                .addBin(bin);
     }
 
     // DELETE BIN

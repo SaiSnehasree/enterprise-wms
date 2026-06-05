@@ -29,7 +29,7 @@ public interface InventoryItemRepository
 
     // FIND INVENTORY BY
     // PRODUCT + WAREHOUSE
-    Optional<InventoryItem>
+    List<InventoryItem>
     findByProductIdAndWarehouseId(
             Long productId,
             Long warehouseId

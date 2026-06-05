@@ -46,7 +46,7 @@ public class InventoryService {
             Integer quantity
     ) {
 
-        Optional<InventoryItem>
+        List<InventoryItem>
                 existingInventory =
                 inventoryItemRepository
                         .findByProductIdAndWarehouseId(
@@ -69,10 +69,10 @@ public class InventoryService {
         }
 
         // Inventory already exists
-        if (existingInventory.isPresent()) {
+        if (!existingInventory.isEmpty()) {
 
             InventoryItem item =
-                    existingInventory.get();
+                    existingInventory.get(0);
 
             item.setStockQuantity(
                     item.getStockQuantity()
