@@ -9,7 +9,10 @@ import lombok.Data;
 public class InventoryItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy =
+                    GenerationType.IDENTITY
+    )
     private Long id;
 
     private Integer stockQuantity;
@@ -17,10 +20,21 @@ public class InventoryItem {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(
+            name = "product_id"
+    )
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(
+            name = "warehouse_id"
+    )
     private Warehouse warehouse;
+
+    // STORAGE BIN
+    @ManyToOne
+    @JoinColumn(
+            name = "storage_bin_id"
+    )
+    private StorageBin storageBin;
 }

@@ -2,6 +2,7 @@ package com.sneha.wms.service;
 
 import com.sneha.wms.entity.InventoryItem;
 import com.sneha.wms.entity.Product;
+import com.sneha.wms.entity.StorageBin;
 import com.sneha.wms.entity.Warehouse;
 import com.sneha.wms.repository.InventoryItemRepository;
 
@@ -24,6 +25,10 @@ public class InventoryService {
     @Autowired
     private InventoryItemRepository
             inventoryItemRepository;
+
+    @Autowired
+    private StorageBinService
+            storageBinService;
 
     // Add Inventory
     public InventoryItem addInventory(
@@ -49,7 +54,21 @@ public class InventoryService {
                                 warehouseId
                         );
 
-        // Inventory exists
+        // Find available storage bin
+        StorageBin availableBin =
+                storageBinService
+                        .findAvailableBin(
+                                warehouseId
+                        );
+
+        if (availableBin == null) {
+
+            throw new RuntimeException(
+                    "No available storage bin found!"
+            );
+        }
+
+        // Inventory already exists
         if (existingInventory.isPresent()) {
 
             InventoryItem item =
@@ -58,6 +77,16 @@ public class InventoryService {
             item.setStockQuantity(
                     item.getStockQuantity()
                             + quantity
+            );
+
+            // assign storage bin
+            item.setStorageBin(
+                    availableBin
+            );
+
+            // mark occupied
+            availableBin.setOccupied(
+                    true
             );
 
             return inventoryItemRepository
@@ -79,8 +108,19 @@ public class InventoryService {
         warehouse.setId(warehouseId);
 
         newItem.setProduct(product);
+
         newItem.setWarehouse(
                 warehouse
+        );
+
+        // assign bin
+        newItem.setStorageBin(
+                availableBin
+        );
+
+        // mark occupied
+        availableBin.setOccupied(
+                true
         );
 
         newItem.setStockQuantity(

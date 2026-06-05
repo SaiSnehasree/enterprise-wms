@@ -44,6 +44,19 @@ public class StorageBinService {
                 );
     }
 
+    // FIND AVAILABLE BIN
+    public StorageBin
+    findAvailableBin(
+            Long warehouseId
+    ) {
+
+        return storageBinRepository
+                .findFirstByWarehouseIdAndOccupiedFalse(
+                        warehouseId
+                )
+                .orElse(null);
+    }
+
     // GET BIN BY ID
     public StorageBin
     getBinById(Long id) {
