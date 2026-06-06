@@ -5,6 +5,7 @@ import {
     Pencil,
     Trash2,
     Package2,
+    QrCode,
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -471,18 +472,39 @@ function ProductsPage() {
                                     </div>
 
                                 </div>
+                                <div className="flex gap-3 mt-10">
 
-                                <div className="flex gap-4 mt-10">
+                                    <button
+                                        onClick={() =>
+                                            window.open(
+                                                `http://localhost:8080/products/qr/${product.id}`,
+                                                "_blank"
+                                            )
+                                        }
+                                        className="
+        flex-1 py-4 rounded-2xl
+        bg-violet-500/10
+        text-violet-300
+        border border-violet-500/20
+        flex items-center
+        justify-center gap-2
+        hover:bg-violet-500/20
+        transition-all"
+                                    >
+                                        <QrCode size={18} />
+                                        QR
+                                    </button>
 
                                     <button
                                         onClick={() =>
                                             openEditModal(product)
                                         }
-                                        className="flex-1 py-4 rounded-2xl
-    bg-blue-500/10
-    text-blue-300
-    flex items-center
-    justify-center gap-2"
+                                        className="
+        flex-1 py-4 rounded-2xl
+        bg-blue-500/10
+        text-blue-300
+        flex items-center
+        justify-center gap-2"
                                     >
                                         <Pencil size={18} />
                                         Edit
@@ -494,11 +516,12 @@ function ProductsPage() {
                                                 product.id
                                             )
                                         }
-                                        className="flex-1 py-4 rounded-2xl
-    bg-red-500/10
-    text-red-300
-    flex items-center
-    justify-center gap-2"
+                                        className="
+        flex-1 py-4 rounded-2xl
+        bg-red-500/10
+        text-red-300
+        flex items-center
+        justify-center gap-2"
                                     >
                                         <Trash2 size={18} />
                                         Delete
