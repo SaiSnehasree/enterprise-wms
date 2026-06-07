@@ -8,12 +8,27 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InventoryItemRepository
-        extends JpaRepository<InventoryItem, Long> {
+        extends JpaRepository<
+        InventoryItem,
+        Long
+        > {
 
     // LOW STOCK
     List<InventoryItem>
     findByStockQuantityLessThan(
             Integer quantity
+    );
+
+    // FIND INVENTORY
+    Optional<InventoryItem>
+    findFirstByProductId(
+            Long productId
+    );
+
+    Optional<InventoryItem>
+    findByProductIdAndWarehouseId(
+            Long productId,
+            Long warehouseId
     );
 
     // WAREHOUSE ANALYTICS
@@ -26,12 +41,4 @@ public interface InventoryItemRepository
             """)
     List<Object[]>
     getWarehouseAnalytics();
-
-    // FIND INVENTORY BY
-    // PRODUCT + WAREHOUSE
-    List<InventoryItem>
-    findByProductIdAndWarehouseId(
-            Long productId,
-            Long warehouseId
-    );
 }

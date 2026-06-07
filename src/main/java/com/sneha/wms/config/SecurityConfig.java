@@ -47,7 +47,8 @@ public class SecurityConfig {
                                         "/products/**",
                                         "/warehouse/**",
                                         "/inventory/**",
-                                        "/storage-bin/**"
+                                        "/storage-bin/**",
+                                        "/orders/**"
                                 )
                                 .permitAll()
 

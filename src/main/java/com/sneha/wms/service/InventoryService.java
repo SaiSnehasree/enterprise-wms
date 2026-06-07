@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.sneha.wms.exception.ResourceNotFoundException;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,14 +47,13 @@ public class InventoryService {
             Integer quantity
     ) {
 
-        List<InventoryItem>
+        Optional<InventoryItem>
                 existingInventory =
                 inventoryItemRepository
                         .findByProductIdAndWarehouseId(
                                 productId,
                                 warehouseId
                         );
-
         // Find available storage bin
         StorageBin availableBin =
                 storageBinService
@@ -72,7 +72,7 @@ public class InventoryService {
         if (!existingInventory.isEmpty()) {
 
             InventoryItem item =
-                    existingInventory.get(0);
+                    existingInventory.get();
 
             item.setStockQuantity(
                     item.getStockQuantity()
