@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.sneha.wms.exception
+        .InsufficientStockException;
 
 @Service
 public class OrderService {
@@ -66,6 +68,11 @@ public class OrderService {
                 status.equalsIgnoreCase(
                         "Packed"
                 )
+                        &&
+                        !order.getStatus()
+                                .equalsIgnoreCase(
+                                        "Packed"
+                                )
         ) {
 
             InventoryItem
@@ -90,8 +97,9 @@ public class OrderService {
                             < order.getQuantity()
             ) {
 
-                throw new RuntimeException(
-                        "Insufficient Stock!"
+                throw new
+                        InsufficientStockException(
+                        "Insufficient stock available!"
                 );
             }
 
