@@ -1,5 +1,10 @@
 package com.sneha.wms.config;
 
+import com.sneha.wms.security.JwtFilter;
+
+import org.springframework.beans.factory
+        .annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +17,16 @@ import org.springframework.security.config.annotation.web
 import org.springframework.security.web
         .SecurityFilterChain;
 
+import org.springframework.security.web
+        .authentication
+        .UsernamePasswordAuthenticationFilter;
+
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private JwtFilter
+            jwtFilter;
 
     @Bean
     public SecurityFilterChain
@@ -37,25 +50,24 @@ public class SecurityConfig {
 
                         auth
 
-                                // AUTH APIs
+                                // PUBLIC AUTH APIs
                                 .requestMatchers(
                                         "/auth/**"
                                 )
                                 .permitAll()
 
-                                // PUBLIC APIs
-                                .requestMatchers(
-                                        "/products/**",
-                                        "/warehouse/**",
-                                        "/inventory/**",
-                                        "/storage-bin/**",
-                                        "/orders/**"
-                                )
-                                .permitAll()
-
-                                // Everything else secured
+                                // ALL OTHER APIs NEED JWT
                                 .anyRequest()
                                 .authenticated()
+                )
+
+                // JWT FILTER
+                .addFilterBefore(
+
+                        jwtFilter,
+
+                        UsernamePasswordAuthenticationFilter
+                                .class
                 );
 
         return http.build();
