@@ -7,9 +7,8 @@ function LoginPage() {
 
     const navigate = useNavigate();
 
-    const [username, setUsername] =
+    const [email, setEmail] =
         useState("");
-
     const [password, setPassword] =
         useState("");
 
@@ -22,8 +21,8 @@ function LoginPage() {
                     await axios.post(
                         "http://localhost:8080/auth/login",
                         {
-                            username:
-                            username,
+                            email:
+                            email,
 
                             password:
                             password,
@@ -31,7 +30,7 @@ function LoginPage() {
                     );
 
                 const token =
-                    response.data.token;
+                    response.data;
 
                 localStorage.setItem(
                     "token",
@@ -45,7 +44,7 @@ function LoginPage() {
             } catch (error) {
 
                 alert(
-                    "Invalid Username or Password ❌"
+                    "Invalid Email or Password ❌"
                 );
 
                 console.log(error);
@@ -152,10 +151,10 @@ function LoginPage() {
 
                     <input
                         type="text"
-                        placeholder="Username"
-                        value={username}
+                        placeholder="Email"
+                        value={email}
                         onChange={(e) =>
-                            setUsername(e.target.value)
+                            setEmail(e.target.value)
                         }
                         className="w-full p-5 rounded-2xl
             bg-white/[0.05]

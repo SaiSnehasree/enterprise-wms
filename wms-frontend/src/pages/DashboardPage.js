@@ -77,33 +77,67 @@ function DashboardPage() {
 
                 try {
 
-                    const productResponse =
-                        await axios.get(
-                            "http://localhost:8080/products"
+                    const token =
+                        localStorage.getItem(
+                            "token"
                         );
 
+                    const response =
+                        await axios.get(
+                            "http://localhost:8080/products",
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ${token}`,
+                                },
+                            }
+                        );
                     const warehouseResponse =
                         await axios.get(
-                            "http://localhost:8080/warehouse"
+                            "http://localhost:8080/warehouse",
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ${token}`,
+                                },
+                            }
                         );
 
                     const inventoryResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory"
+                            "http://localhost:8080/inventory",
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ${token}`,
+                                },
+                            }
                         );
 
                     const lowStockResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/low-stock"
+                            "http://localhost:8080/inventory/low-stock",
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ${token}`,
+                                },
+                            }
                         );
 
                     const analyticsResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/warehouse-analytics"
+                            "http://localhost:8080/inventory/warehouse-analytics",
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ${token}`,
+                                },
+                            }
                         );
 
                     setProductCount(
-                        productResponse.data.length
+                        response.data.length
                     );
 
                     setWarehouseCount(
