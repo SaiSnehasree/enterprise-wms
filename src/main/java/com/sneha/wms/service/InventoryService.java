@@ -31,10 +31,53 @@ public class InventoryService {
     private StorageBinService
             storageBinService;
 
-    // Add Inventory
     public InventoryItem addInventory(
-            InventoryItem item) {
+            InventoryItem item
+    ) {
 
+        Optional<InventoryItem>
+                existingInventory =
+
+                inventoryItemRepository
+                        .findByProductIdAndWarehouseId(
+
+                                item.getProduct()
+                                        .getId(),
+
+                                item.getWarehouse()
+                                        .getId()
+                        );
+
+        // If inventory already exists
+        if (
+                existingInventory
+                        .isPresent()
+        ) {
+
+            InventoryItem
+                    existingItem =
+
+                    existingInventory
+                            .get();
+
+            existingItem
+                    .setStockQuantity(
+
+                            existingItem
+                                    .getStockQuantity()
+
+                                    +
+
+                                    item.getStockQuantity()
+                    );
+
+            return inventoryItemRepository
+                    .save(
+                            existingItem
+                    );
+        }
+
+        // Create new inventory
         return inventoryItemRepository
                 .save(item);
     }

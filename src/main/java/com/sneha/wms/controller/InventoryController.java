@@ -143,4 +143,16 @@ public class InventoryController {
         return inventoryService
                 .updateInventory(1L, item);
     }
+    @GetMapping("/delete-sample/{id}")
+    public String
+    deleteInventorySample(
+            @PathVariable Long id
+    ) {
+
+        inventoryService
+                .deleteInventory(id);
+
+        return
+                "Inventory deleted!";
+    }
 }
