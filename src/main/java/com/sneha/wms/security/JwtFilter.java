@@ -12,6 +12,9 @@ import org.springframework.security.authentication
 import org.springframework.security.core.context
         .SecurityContextHolder;
 
+import org.springframework.security.core.authority
+        .SimpleGrantedAuthority;
+
 import org.springframework.security.web.authentication
         .WebAuthenticationDetailsSource;
 
@@ -21,7 +24,7 @@ import org.springframework.web.filter
         .OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 
 @Component
 public class JwtFilter
@@ -53,8 +56,11 @@ public class JwtFilter
 
         String username = null;
 
-        // Check Bearer token
+        String role = null;
+
+        // CHECK TOKEN
         if (
+
                 authHeader != null
 
                         &&
@@ -70,19 +76,34 @@ public class JwtFilter
                     );
 
             username =
-                    jwtUtil.extractUsername(
-                            token
-                    );
+                    jwtUtil
+                            .extractUsername(
+                                    token
+                            );
+
+            role =
+                    jwtUtil
+                            .extractClaims(
+                                    token
+                            )
+
+                            .get(
+                                    "role",
+                                    String.class
+                            );
         }
 
-        // Authenticate user
+        // AUTHENTICATE USER
         if (
+
                 username != null
 
                         &&
 
                         SecurityContextHolder
+
                                 .getContext()
+
                                 .getAuthentication()
 
                                 == null
@@ -97,7 +118,14 @@ public class JwtFilter
 
                             null,
 
-                            Collections.emptyList()
+                            List.of(
+
+                                    new SimpleGrantedAuthority(
+
+                                            "ROLE_"
+                                                    + role
+                                    )
+                            )
                     );
 
             authToken.setDetails(
@@ -110,6 +138,7 @@ public class JwtFilter
             );
 
             SecurityContextHolder
+
                     .getContext()
 
                     .setAuthentication(

@@ -50,13 +50,32 @@ public class SecurityConfig {
 
                         auth
 
-                                // PUBLIC AUTH APIs
+                                // PUBLIC AUTH
                                 .requestMatchers(
                                         "/auth/**"
                                 )
                                 .permitAll()
 
-                                // ALL OTHER APIs NEED JWT
+                                // ADMIN ONLY
+                                .requestMatchers(
+
+                                        "/warehouse/**",
+                                        "/storage-bin/**"
+                                )
+                                .hasRole("ADMIN")
+
+                                // ADMIN + OPERATOR
+                                .requestMatchers(
+
+                                        "/products/**",
+                                        "/inventory/**",
+                                        "/orders/**"
+                                )
+                                .hasAnyRole(
+                                        "ADMIN",
+                                        "OPERATOR"
+                                )
+
                                 .anyRequest()
                                 .authenticated()
                 )
