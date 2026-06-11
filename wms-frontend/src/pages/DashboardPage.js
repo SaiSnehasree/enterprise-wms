@@ -9,6 +9,8 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
+    LineChart,
+    Line,
 } from "recharts";
 
 import axios from "axios";
@@ -55,6 +57,16 @@ function DashboardPage() {
         setAnalyticsData,
     ] = useState([]);
 
+    const [
+        predictions,
+        setPredictions,
+    ] = useState([]);
+
+    const [
+        salesPrediction,
+        setSalesPrediction,
+    ] = useState([]);
+
     const stats = [
         {
             title: "Products",
@@ -86,58 +98,53 @@ function DashboardPage() {
                             "token"
                         );
 
+                    const config = {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`,
+                        },
+                    };
+
                     const response =
                         await axios.get(
                             "http://localhost:8080/products",
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ${token}`,
-                                },
-                            }
+                            config
                         );
+
                     const warehouseResponse =
                         await axios.get(
                             "http://localhost:8080/warehouse",
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ${token}`,
-                                },
-                            }
+                            config
                         );
 
                     const inventoryResponse =
                         await axios.get(
                             "http://localhost:8080/inventory",
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ${token}`,
-                                },
-                            }
+                            config
                         );
 
                     const lowStockResponse =
                         await axios.get(
                             "http://localhost:8080/inventory/low-stock",
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ${token}`,
-                                },
-                            }
+                            config
                         );
 
                     const analyticsResponse =
                         await axios.get(
                             "http://localhost:8080/inventory/warehouse-analytics",
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ${token}`,
-                                },
-                            }
+                            config
+                        );
+
+                    const predictionResponse =
+                        await axios.get(
+                            "http://localhost:8080/inventory/reorder-predictions",
+                            config
+                        );
+
+                    const salesPredictionResponse =
+                        await axios.get(
+                            "http://localhost:8080/inventory/sales-prediction",
+                            config
                         );
 
                     setProductCount(
@@ -158,6 +165,22 @@ function DashboardPage() {
 
                     setAnalyticsData(
                         analyticsResponse.data
+                    );
+                    setPredictions(
+                        predictionResponse.data
+                    );
+                    setSalesPrediction(
+
+                        salesPredictionResponse
+                            .data
+                            .filter(
+                                item =>
+                                    item.product
+                                        .trim()
+                                        .toLowerCase()
+                                    ===
+                                    "hp mouse"
+                            )
                     );
 
                 } catch (error) {
@@ -383,6 +406,151 @@ function DashboardPage() {
                         </div>
 
                     </motion.div>
+                    {/* Sales Prediction Graph */}
+                    <motion.div
+                        className="
+    rounded-[40px]
+    border border-violet-500/20
+    bg-white/[0.04]
+    backdrop-blur-3xl
+    p-8 mb-8"
+                    >
+
+                        <div className="mb-6">
+
+                            <h2 className="text-3xl font-bold">
+                                Sales Prediction
+                            </h2>
+
+                            <p className="text-slate-400 mt-2">
+                                Predicted stock depletion
+                                over next 7 days
+                            </p>
+
+                        </div>
+
+                        <ResponsiveContainer
+                            width="100%"
+                            height={300}
+                        >
+
+                            <LineChart
+                                data={
+                                    salesPrediction
+                                }
+                            >
+
+                                <XAxis
+                                    dataKey="day"
+                                    stroke="#888"
+                                />
+
+                                <YAxis
+                                    stroke="#888"
+                                />
+
+                                <Tooltip />
+
+                                <Line
+                                    type="monotone"
+                                    dataKey="stock"
+                                    stroke="#a855f7"
+                                    strokeWidth={4}
+                                />
+
+                            </LineChart>
+
+                        </ResponsiveContainer>
+
+                    </motion.div>
+
+                </motion.div>
+                {/* Smart Inventory Insights */}
+                <motion.div
+                    whileHover={{
+                        scale: 1.01,
+                    }}
+                    className="
+    rounded-[40px]
+    border border-violet-500/20
+    bg-white/[0.04]
+    backdrop-blur-3xl
+    p-8
+    h-full
+    shadow-[0_0_60px_rgba(168,85,247,0.08)]"
+                >
+
+                    <div className="flex items-center gap-3 mb-6">
+
+                        <h2 className="text-2xl font-bold">
+                            Smart Inventory Insights
+                        </h2>
+
+                    </div>
+
+                    <div className="space-y-4 max-h-[320px] overflow-y-auto">
+
+                        {predictions.map(
+                            (item, index) => (
+
+                                <motion.div
+                                    key={index}
+                                    whileHover={{
+                                        scale: 1.02,
+                                    }}
+                                    className={`
+                    rounded-[24px]
+                    p-5 border
+
+                    ${item.priority
+                                    === "HIGH"
+
+                                        ? "border-red-500/20 bg-red-500/10"
+
+                                        : item.priority
+                                        === "MEDIUM"
+
+                                            ? "border-yellow-500/20 bg-yellow-500/10"
+
+                                            : "border-emerald-500/20 bg-emerald-500/10"
+                                    }
+                    `}
+                                >
+
+                                    <h3 className="font-semibold text-lg">
+                                        {item.product}
+                                    </h3>
+
+                                    <p className="mt-2 text-sm">
+                                        Stock:
+                                        {" "}
+                                        {item.currentStock}
+                                    </p>
+
+                                    <p className="text-sm">
+                                        Priority:
+                                        {" "}
+                                        {item.priority}
+                                    </p>
+
+                                    {item.priority !==
+                                        "HEALTHY" && (
+
+                                            <p className="text-sm mt-2">
+                                                Suggested reorder:
+                                                {" "}
+                                                {
+                                                    item.suggestedReorder
+                                                }
+                                            </p>
+
+                                        )}
+
+                                </motion.div>
+                            )
+                        )}
+
+                    </div>
 
                 </motion.div>
 
