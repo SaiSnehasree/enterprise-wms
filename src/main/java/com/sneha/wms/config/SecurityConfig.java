@@ -52,7 +52,8 @@ public class SecurityConfig {
 
                                 // PUBLIC AUTH
                                 .requestMatchers(
-                                        "/auth/**"
+                                        "/auth/**",
+                                        "/ai/**"
                                 )
                                 .permitAll()
 
