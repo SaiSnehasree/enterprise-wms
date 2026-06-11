@@ -204,41 +204,52 @@ function Sidebar() {
 
             </div>
 
-            {/* Bottom Logout Icon */}
-            <div className="mb-5">
+            {/* Bottom Logout */}
+            <div className="w-full p-4 mt-auto">
 
                 <motion.button
                     whileHover={{
-                        scale: 1.08,
+                        scale: 1.02,
                     }}
 
                     whileTap={{
-                        scale: 0.95,
+                        scale: 0.98,
                     }}
 
                     onClick={
                         handleLogout
                     }
 
-
                     className="
-                    w-14 h-14
-                    rounded-2xl
-                    border border-white/10
-                    bg-white/[0.04]
-                    backdrop-blur-3xl
-                    flex items-center
-                    justify-center
-                    text-slate-400
-                    hover:text-red-400
-                    hover:border-red-400/30
-                    transition-all"
+        w-full
+        flex
+        items-center
+        px-6
+        py-4
+        rounded-r-[24px]
+        text-slate-400
+        hover:text-red-400
+        hover:bg-red-500/10
+        transition-all
+        group"
                 >
 
                     <LogOut
                         size={22}
                     />
 
+                    <span
+                        className="
+            ml-5
+            opacity-0
+            group-hover:opacity-100
+            transition-all
+            duration-500
+            whitespace-nowrap
+            font-medium"
+                    >
+            Logout
+        </span>
 
                 </motion.button>
 

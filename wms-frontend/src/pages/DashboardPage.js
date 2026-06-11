@@ -67,6 +67,16 @@ function DashboardPage() {
         setSalesPrediction,
     ] = useState([]);
 
+    const [
+        aiQuestion,
+        setAiQuestion,
+    ] = useState("");
+
+    const [
+        aiResponse,
+        setAiResponse,
+    ] = useState("");
+
     const stats = [
         {
             title: "Products",
@@ -192,6 +202,33 @@ function DashboardPage() {
         fetchDashboardData();
 
     }, []);
+    const askWarehouseAI =
+        async () => {
+
+            try {
+
+                const response =
+                    await axios.get(
+
+                        "http://localhost:8080/ai/ask",
+
+                        {
+                            params: {
+                                question:
+                                aiQuestion,
+                            },
+                        }
+                    );
+
+                setAiResponse(
+                    response.data
+                );
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
 
     const handleLogout =
         () => {
@@ -465,6 +502,86 @@ function DashboardPage() {
                     </motion.div>
 
                 </motion.div>
+                {/* Warehouse AI Assistant */}
+                <motion.div
+                    className="
+    rounded-[40px]
+    border border-fuchsia-500/20
+    bg-white/[0.04]
+    backdrop-blur-3xl
+    p-8 mb-8"
+                >
+
+                    <h2 className="text-3xl font-bold">
+                        🤖 Warehouse AI
+                    </h2>
+
+                    <p className="text-slate-400 mt-2 mb-6">
+                        Ask inventory questions
+                    </p>
+
+                    <input
+                        type="text"
+                        placeholder="
+        Ask WMS AI...
+        "
+                        value={aiQuestion}
+                        onChange={(e) =>
+                            setAiQuestion(
+                                e.target.value
+                            )
+                        }
+                        className="
+        w-full
+        p-5
+        rounded-2xl
+        bg-white/[0.05]
+        border border-white/10
+        outline-none
+        text-white"
+                    />
+
+                    <motion.button
+                        whileHover={{
+                            scale: 1.02,
+                        }}
+                        whileTap={{
+                            scale: 0.98,
+                        }}
+                        onClick={
+                            askWarehouseAI
+                        }
+                        className="
+        mt-5
+        px-8 py-4
+        rounded-2xl
+        bg-gradient-to-r
+        from-violet-600
+        to-fuchsia-600
+        font-semibold"
+                    >
+                        Ask AI
+                    </motion.button>
+
+                    {aiResponse && (
+
+                        <div
+                            className="
+            mt-6
+            rounded-[24px]
+            bg-violet-500/10
+            border border-violet-500/20
+            p-5
+            whitespace-pre-line"
+                        >
+
+                            {aiResponse}
+
+                        </div>
+
+                    )}
+
+                </motion.div>
                 {/* Smart Inventory Insights */}
                 <motion.div
                     whileHover={{
@@ -499,22 +616,23 @@ function DashboardPage() {
                                         scale: 1.02,
                                     }}
                                     className={`
-                    rounded-[24px]
-                    p-5 border
+rounded-[28px]
+p-6
+border
+min-h-[180px]
+transition-all
+hover:scale-[1.02]
 
-                    ${item.priority
-                                    === "HIGH"
+${
+                                        item.priority === "HIGH"
+                                            ? "border-red-500/20 bg-red-500/10"
 
-                                        ? "border-red-500/20 bg-red-500/10"
+                                            : item.priority === "MEDIUM"
+                                                ? "border-yellow-500/20 bg-yellow-500/10"
 
-                                        : item.priority
-                                        === "MEDIUM"
-
-                                            ? "border-yellow-500/20 bg-yellow-500/10"
-
-                                            : "border-emerald-500/20 bg-emerald-500/10"
+                                                : "border-emerald-500/20 bg-emerald-500/10"
                                     }
-                    `}
+`}
                                 >
 
                                     <h3 className="font-semibold text-lg">
@@ -553,6 +671,8 @@ function DashboardPage() {
                     </div>
 
                 </motion.div>
+
+
 
                 {/* Analytics + Low Stock */}
                 <div className="grid grid-cols-3 gap-8 mt-14">
