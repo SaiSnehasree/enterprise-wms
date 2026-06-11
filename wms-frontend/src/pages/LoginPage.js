@@ -36,6 +36,17 @@ function LoginPage() {
                     "token",
                     token
                 );
+                const payload =
+                    JSON.parse(
+                        atob(
+                            token.split(".")[1]
+                        )
+                    );
+
+                localStorage.setItem(
+                    "role",
+                    payload.role
+                );
 
                 navigate(
                     "/dashboard"

@@ -21,11 +21,19 @@ function Sidebar() {
     const location =
         useLocation();
 
+    const role =
+        localStorage.getItem(
+            "role"
+        );
+
     const handleLogout =
         () => {
 
             localStorage.removeItem(
                 "token"
+            );
+            localStorage.removeItem(
+                "role"
             );
 
             navigate("/");
@@ -55,16 +63,24 @@ function Sidebar() {
                 "/products",
         },
 
-        {
-            icon:
-                <Warehouse />,
+        ...(role === "ADMIN"
 
-            text:
-                "Warehouses",
+            ? [
 
-            path:
-                "/warehouse",
-        },
+                {
+                    icon:
+                        <Warehouse />,
+
+                    text:
+                        "Warehouses",
+
+                    path:
+                        "/warehouse",
+                },
+
+            ]
+
+            : []),
 
         {
             icon:
@@ -204,6 +220,7 @@ function Sidebar() {
                         handleLogout
                     }
 
+
                     className="
                     w-14 h-14
                     rounded-2xl
@@ -221,6 +238,7 @@ function Sidebar() {
                     <LogOut
                         size={22}
                     />
+
 
                 </motion.button>
 

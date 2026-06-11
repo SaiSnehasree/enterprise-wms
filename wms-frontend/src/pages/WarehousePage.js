@@ -25,6 +25,10 @@ function WarehousePage() {
     });
 
     const API_URL = "http://localhost:8080/warehouse";
+    const role =
+        localStorage.getItem(
+            "role"
+        );
 
     useEffect(() => {
         fetchWarehouses();
@@ -321,16 +325,28 @@ function WarehousePage() {
                         </p>
                     </div>
 
-                    <button
-                        onClick={() => {
-                            setIsEditing(false);
-                            setShowModal(true);
-                        }}
-                        className="flex items-center gap-3 px-7 py-4 rounded-3xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:scale-105 transition-all shadow-[0_0_40px_rgba(139,92,246,0.35)]"
-                    >
-                        <Plus size={20} />
-                        Add Warehouse
-                    </button>
+                    {role === "ADMIN" && (
+
+                        <button
+                            onClick={() => {
+                                setIsEditing(false);
+                                setShowModal(true);
+                            }}
+                            className="
+        flex items-center gap-3
+        px-7 py-4 rounded-3xl
+        bg-gradient-to-r
+        from-violet-600
+        to-fuchsia-600
+        hover:scale-105
+        transition-all
+        shadow-[0_0_40px_rgba(139,92,246,0.35)]"
+                        >
+                            <Plus size={20} />
+                            Add Warehouse
+                        </button>
+
+                    )}
                 </div>
 
                 {/* ================= CARDS ================= */}
@@ -388,31 +404,51 @@ function WarehousePage() {
                                     </div>
 
                                     {/* Buttons */}
-                                    <div className="flex gap-4 mt-10">
-                                        <button
-                                            onClick={() =>
-                                                openEditModal(
-                                                    warehouse
-                                                )
-                                            }
-                                            className="flex-1 py-4 rounded-2xl bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 transition-all flex items-center justify-center gap-2"
-                                        >
-                                            <Pencil size={18} />
-                                            Edit
-                                        </button>
+                                    {role === "ADMIN" && (
 
-                                        <button
-                                            onClick={() =>
-                                                handleDeleteWarehouse(
-                                                    warehouse.id
-                                                )
-                                            }
-                                            className="flex-1 py-4 rounded-2xl bg-red-500/10 text-red-300 hover:bg-red-500/20 transition-all flex items-center justify-center gap-2"
-                                        >
-                                            <Trash2 size={18} />
-                                            Delete
-                                        </button>
-                                    </div>
+                                        <div className="flex gap-4 mt-10">
+
+                                            <button
+                                                onClick={() =>
+                                                    openEditModal(
+                                                        warehouse
+                                                    )
+                                                }
+                                                className="
+            flex-1 py-4 rounded-2xl
+            bg-blue-500/10
+            text-blue-300
+            hover:bg-blue-500/20
+            transition-all
+            flex items-center
+            justify-center gap-2"
+                                            >
+                                                <Pencil size={18} />
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                onClick={() =>
+                                                    handleDeleteWarehouse(
+                                                        warehouse.id
+                                                    )
+                                                }
+                                                className="
+            flex-1 py-4 rounded-2xl
+            bg-red-500/10
+            text-red-300
+            hover:bg-red-500/20
+            transition-all
+            flex items-center
+            justify-center gap-2"
+                                            >
+                                                <Trash2 size={18} />
+                                                Delete
+                                            </button>
+
+                                        </div>
+
+                                    )}
                                 </motion.div>
                             )
                         )

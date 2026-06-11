@@ -25,6 +25,10 @@ import {
 function DashboardPage() {
 
     const navigate = useNavigate();
+    const role =
+        localStorage.getItem(
+            "role"
+        );
 
     const [
         productCount,
@@ -231,7 +235,7 @@ function DashboardPage() {
                             <div className="flex items-center gap-2">
 
                                 <h3 className="font-semibold text-lg text-white">
-                                    Admin
+                                    {role}
                                 </h3>
 
                                 <div
@@ -244,7 +248,13 @@ function DashboardPage() {
                             </div>
 
                             <p className="text-slate-400 text-sm">
-                                System Administrator
+
+                                {role === "ADMIN"
+
+                                    ? "System Administrator"
+
+                                    : "Warehouse Operator"}
+
                             </p>
 
                         </div>

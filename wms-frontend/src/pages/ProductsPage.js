@@ -41,6 +41,10 @@ function ProductsPage() {
             description: "",
             sku: "",
         });
+    const role =
+        localStorage.getItem(
+            "role"
+        );
 
     useEffect(() => {
         fetchProducts();
@@ -337,38 +341,46 @@ function ProductsPage() {
 
                     </div>
 
-                    <motion.button
-                        whileHover={{
-                            scale: 1.03,
-                        }}
-                        whileTap={{
-                            scale: 0.98,
-                        }}
-                        onClick={() => {
+                    {role === "ADMIN" && (
 
-                            setIsEditing(false);
+                        <motion.button
+                            whileHover={{
+                                scale: 1.03,
+                            }}
 
-                            setNewProduct({
-                                productName: "",
-                                price: "",
-                                quantity: "",
-                                description: "",
-                                sku: "",
-                            });
+                            whileTap={{
+                                scale: 0.98,
+                            }}
 
-                            setShowModal(true);
-                        }}
-                        className="flex items-center gap-3
-            px-7 py-4 rounded-2xl
-            bg-gradient-to-r
-            from-violet-600
-            to-fuchsia-600
-            font-medium
-            shadow-[0_0_40px_rgba(139,92,246,0.25)]"
-                    >
-                        <Plus size={20} />
-                        Add Product
-                    </motion.button>
+                            onClick={() => {
+
+                                setIsEditing(false);
+
+                                setNewProduct({
+                                    productName: "",
+                                    price: "",
+                                    quantity: "",
+                                    description: "",
+                                    sku: "",
+                                });
+
+                                setShowModal(true);
+                            }}
+
+                            className="
+        flex items-center gap-3
+        px-7 py-4 rounded-2xl
+        bg-gradient-to-r
+        from-violet-600
+        to-fuchsia-600
+        font-medium
+        shadow-[0_0_40px_rgba(139,92,246,0.25)]"
+                        >
+                            <Plus size={20} />
+                            Add Product
+                        </motion.button>
+
+                    )}
 
                 </motion.div>
 
@@ -474,6 +486,7 @@ function ProductsPage() {
                                 </div>
                                 <div className="flex gap-3 mt-10">
 
+                                    {/* QR Button */}
                                     <button
                                         onClick={() =>
                                             window.open(
@@ -495,37 +508,44 @@ function ProductsPage() {
                                         QR
                                     </button>
 
-                                    <button
-                                        onClick={() =>
-                                            openEditModal(product)
-                                        }
-                                        className="
-        flex-1 py-4 rounded-2xl
-        bg-blue-500/10
-        text-blue-300
-        flex items-center
-        justify-center gap-2"
-                                    >
-                                        <Pencil size={18} />
-                                        Edit
-                                    </button>
+                                    {/* ADMIN ONLY */}
+                                    {role === "ADMIN" && (
 
-                                    <button
-                                        onClick={() =>
-                                            handleDeleteProduct(
-                                                product.id
-                                            )
-                                        }
-                                        className="
-        flex-1 py-4 rounded-2xl
-        bg-red-500/10
-        text-red-300
-        flex items-center
-        justify-center gap-2"
-                                    >
-                                        <Trash2 size={18} />
-                                        Delete
-                                    </button>
+                                        <>
+                                            <button
+                                                onClick={() =>
+                                                    openEditModal(product)
+                                                }
+                                                className="
+                flex-1 py-4 rounded-2xl
+                bg-blue-500/10
+                text-blue-300
+                flex items-center
+                justify-center gap-2"
+                                            >
+                                                <Pencil size={18} />
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                onClick={() =>
+                                                    handleDeleteProduct(
+                                                        product.id
+                                                    )
+                                                }
+                                                className="
+                flex-1 py-4 rounded-2xl
+                bg-red-500/10
+                text-red-300
+                flex items-center
+                justify-center gap-2"
+                                            >
+                                                <Trash2 size={18} />
+                                                Delete
+                                            </button>
+                                        </>
+
+                                    )}
 
                                 </div>
 
@@ -675,17 +695,25 @@ function ProductsPage() {
                                     whileHover={{
                                         scale: 1.02,
                                     }}
+
                                     onClick={() =>
                                         isEditing
                                             ? handleUpdateProduct()
                                             : handleAddProduct()
                                     }
-                                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600"
+
+                                    className="
+    px-8 py-4 rounded-2xl
+    bg-gradient-to-r
+    from-violet-600
+    to-fuchsia-600"
                                 >
                                     {isEditing
                                         ? "Update Product"
                                         : "Add Product"}
                                 </motion.button>
+
+
 
                             </div>
 
