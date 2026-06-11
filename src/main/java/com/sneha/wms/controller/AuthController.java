@@ -73,6 +73,28 @@ public class AuthController {
         return authService
                 .register(user);
     }
+    @GetMapping("/add-operator")
+    public User
+    addOperator() {
+
+        User user =
+                new User();
+
+        user.setEmail(
+                "operator@gmail.com"
+        );
+
+        user.setPassword(
+                "operator123"
+        );
+
+        user.setRole(
+                "OPERATOR"
+        );
+
+        return authService
+                .register(user);
+    }
     @GetMapping("/login-test")
     public String
     loginTest() {
