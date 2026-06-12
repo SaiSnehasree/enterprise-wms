@@ -2,38 +2,36 @@ package com.sneha.wms.config;
 
 import com.sneha.wms.security.JwtFilter;
 
-import org.springframework.beans.factory
-        .annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.security.config
-        .Customizer;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
-import org.springframework.security.config.annotation.web
-        .builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import org.springframework.security.web
-        .SecurityFilterChain;
-
-import org.springframework.security.web
-        .authentication
-        .UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
     @Autowired
-    private JwtFilter
-            jwtFilter;
+    private JwtFilter jwtFilter;
 
     @Bean
-    public SecurityFilterChain
-    securityFilterChain(
+    public PasswordEncoder passwordEncoder() {
+
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(
             HttpSecurity http
-    )
-            throws Exception {
+    ) throws Exception {
 
         http
 
@@ -42,8 +40,7 @@ public class SecurityConfig {
                 )
 
                 .cors(
-                        Customizer
-                                .withDefaults()
+                        Customizer.withDefaults()
                 )
 
                 .authorizeHttpRequests(auth ->
@@ -59,7 +56,6 @@ public class SecurityConfig {
 
                                 // ADMIN ONLY
                                 .requestMatchers(
-
                                         "/warehouse/**",
                                         "/storage-bin/**"
                                 )
@@ -67,7 +63,6 @@ public class SecurityConfig {
 
                                 // ADMIN + OPERATOR
                                 .requestMatchers(
-
                                         "/products/**",
                                         "/inventory/**",
                                         "/orders/**"
@@ -83,11 +78,8 @@ public class SecurityConfig {
 
                 // JWT FILTER
                 .addFilterBefore(
-
                         jwtFilter,
-
-                        UsernamePasswordAuthenticationFilter
-                                .class
+                        UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();
