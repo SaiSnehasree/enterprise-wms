@@ -4,23 +4,17 @@ import {
     Route,
 } from "react-router-dom";
 
-import LoginPage
-    from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage";
 
-import DashboardPage
-    from "./pages/DashboardPage";
+import DashboardPage from "./pages/DashboardPage";
 
-import ProductsPage
-    from "./pages/ProductsPage";
+import ProductsPage from "./pages/ProductsPage";
 
-import WarehousePage
-    from "./pages/WarehousePage";
+import WarehousePage from "./pages/WarehousePage";
 
-import InventoryPage
-    from "./pages/InventoryPage";
+import InventoryPage from "./pages/InventoryPage";
 
-import ProtectedRoute
-    from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 

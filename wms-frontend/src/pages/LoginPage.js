@@ -57,8 +57,9 @@ function LoginPage() {
                 alert(
                     "Invalid Email or Password ❌"
                 );
-
-                console.log(error);
+                console.error(
+                    "Login failed"
+                );
             }
         };
 
@@ -161,7 +162,7 @@ function LoginPage() {
                 <div className="mt-10 space-y-6">
 
                     <input
-                        type="text"
+                        type="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) =>
