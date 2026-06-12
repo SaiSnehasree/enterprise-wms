@@ -2,12 +2,14 @@ package com.sneha.wms;
 
 import com.sneha.wms.entity.User;
 import com.sneha.wms.repository.UserRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataInitializer implements CommandLineRunner {
+public class DataInitializer
+        implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -16,29 +18,67 @@ public class DataInitializer implements CommandLineRunner {
             UserRepository userRepository,
             PasswordEncoder passwordEncoder
     ) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+
+        this.userRepository =
+                userRepository;
+
+        this.passwordEncoder =
+                passwordEncoder;
     }
 
     @Override
-    public void run(String... args) {
+    public void run(
+            String... args
+    ) {
 
-        if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
+        boolean userExists =
+                userRepository
+                        .findByEmail(
+                                "admin@gmail.com"
+                        )
+                        .isPresent();
 
-            User admin = new User();
+        if (!userExists) {
 
-            admin.setEmail("admin@gmail.com");
+            User admin =
+                    new User();
 
-            admin.setPassword(
-                    passwordEncoder.encode("admin123")
+            admin.setEmail(
+                    "admin@gmail.com"
             );
 
-            admin.setRole("ADMIN");
+            admin.setPassword(
+                    passwordEncoder
+                            .encode(
+                                    "admin123"
+                            )
+            );
 
-            userRepository.save(admin);
+            admin.setRole(
+                    "ROLE_ADMIN"
+            );
+
+            userRepository
+                    .save(admin);
+
+            System.out.println(
+                    "////////////////////////////////////////////////////"
+            );
 
             System.out.println(
                     "Admin user created!"
+            );
+
+            System.out.println(
+                    "Email: admin@gmail.com"
+            );
+
+            System.out.println(
+                    "Password: admin123"
+            );
+
+            System.out.println(
+                    "////////////////////////////////////////////////////"
             );
         }
     }
