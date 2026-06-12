@@ -117,43 +117,43 @@ function DashboardPage() {
 
                     const response =
                         await axios.get(
-                            "http://localhost:8080/products",
+                            "https://enterprise-wms.onrender.com/products",
                             config
                         );
 
                     const warehouseResponse =
                         await axios.get(
-                            "http://localhost:8080/warehouse",
+                            "https://enterprise-wms.onrender.com/warehouse",
                             config
                         );
 
                     const inventoryResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory",
+                            "https://enterprise-wms.onrender.com/inventory",
                             config
                         );
 
                     const lowStockResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/low-stock",
+                            "https://enterprise-wms.onrender.com/inventory/low-stock",
                             config
                         );
 
                     const analyticsResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/warehouse-analytics",
+                            "https://enterprise-wms.onrender.com/inventory/warehouse-analytics",
                             config
                         );
 
                     const predictionResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/reorder-predictions",
+                            "https://enterprise-wms.onrender.com/inventory/reorder-predictions",
                             config
                         );
 
                     const salesPredictionResponse =
                         await axios.get(
-                            "http://localhost:8080/inventory/sales-prediction",
+                            "https://enterprise-wms.onrender.com/inventory/sales-prediction",
                             config
                         );
 
@@ -199,7 +199,7 @@ function DashboardPage() {
                 const response =
                     await axios.get(
 
-                        "http://localhost:8080/ai/ask",
+                        "https://enterprise-wms.onrender.com/ai/ask",
 
                         {
                             params: {

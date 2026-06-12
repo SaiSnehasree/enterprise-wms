@@ -64,7 +64,7 @@ function ProductsPage() {
 
                 const response =
                     await axios.get(
-                        "http://localhost:8080/products",
+                        "https://enterprise-wms.onrender.com/products",
                         {
                             headers: {
                                 Authorization:
@@ -108,7 +108,7 @@ function ProductsPage() {
                 };
 
                 await axios.post(
-                    "http://localhost:8080/products",
+                    "https://enterprise-wms.onrender.com/products",
                     productData,
                     {
                         headers: {
@@ -153,7 +153,7 @@ function ProductsPage() {
                     );
 
                 await axios.delete(
-                    `http://localhost:8080/products/${id}`,
+                    `https://enterprise-wms.onrender.com/products/${id}`,
                     {
                         headers: {
                             Authorization:
@@ -226,7 +226,7 @@ function ProductsPage() {
                 };
 
                 await axios.put(
-                    `http://localhost:8080/products/${selectedId}`,
+                    `https://enterprise-wms.onrender.com/products/${selectedId}`,
                     updatedProduct,
                     {
                         headers: {
@@ -490,7 +490,7 @@ function ProductsPage() {
                                     <button
                                         onClick={() =>
                                             window.open(
-                                                `http://localhost:8080/products/qr/${product.id}`,
+                                                `https://enterprise-wms.onrender.com/products/qr/${product.id}`,
                                                 "_blank"
                                             )
                                         }

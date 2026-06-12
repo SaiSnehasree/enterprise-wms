@@ -46,7 +46,7 @@ function InventoryPage() {
         warehouseId: "",
     });
 
-    const API_URL = "http://localhost:8080/inventory";
+    const API_URL = "https://enterprise-wms.onrender.com/inventory";
 
     // =========================
     // LOAD DATA
@@ -91,7 +91,7 @@ function InventoryPage() {
 
                 const prodRes =
                     await axios.get(
-                        "http://localhost:8080/products",
+                        "https://enterprise-wms.onrender.com/products",
                         {
                             headers: {
                                 Authorization:
@@ -102,7 +102,7 @@ function InventoryPage() {
 
                 const wareRes =
                     await axios.get(
-                        "http://localhost:8080/warehouse",
+                        "https://enterprise-wms.onrender.com/warehouse",
                         {
                             headers: {
                                 Authorization:

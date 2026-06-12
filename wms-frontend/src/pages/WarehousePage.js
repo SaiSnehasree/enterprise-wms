@@ -24,7 +24,7 @@ function WarehousePage() {
         capacity: "",
     });
 
-    const API_URL = "http://localhost:8080/warehouse";
+    const API_URL = "https://enterprise-wms.onrender.com/warehouse";
     const role =
         localStorage.getItem(
             "role"
