@@ -180,19 +180,8 @@ function DashboardPage() {
                         predictionResponse.data
                     );
                     setSalesPrediction(
-
-                        salesPredictionResponse
-                            .data
-                            .filter(
-                                item =>
-                                    item.product
-                                        .trim()
-                                        .toLowerCase()
-                                    ===
-                                    "hp mouse"
-                            )
+                        salesPredictionResponse.data
                     );
-
                 } catch (error) {
 
                     console.log(error);
@@ -235,6 +224,9 @@ function DashboardPage() {
 
             localStorage.removeItem(
                 "token"
+            );
+            localStorage.removeItem(
+                "role"
             );
 
             navigate("/");
