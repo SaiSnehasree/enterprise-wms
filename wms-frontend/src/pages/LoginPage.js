@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 
 function LoginPage() {
 
@@ -11,6 +12,8 @@ function LoginPage() {
         useState("");
     const [password, setPassword] =
         useState("");
+    const [showPassword, setShowPassword] =
+        useState(false);
 
     const handleLogin =
         async () => {
@@ -174,18 +177,60 @@ function LoginPage() {
             outline-none text-white"
                     />
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value)
-                        }
-                        className="w-full p-5 rounded-2xl
-            bg-white/[0.05]
-            border border-white/10
-            outline-none text-white"
-                    />
+                    <div className="relative">
+
+                        <input
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
+
+                            placeholder="Password"
+
+                            value={password}
+
+                            onChange={(e) =>
+                                setPassword(
+                                    e.target.value
+                                )
+                            }
+
+                            className="
+        w-full p-5 rounded-2xl
+        bg-white/[0.05]
+        border border-white/10
+        outline-none text-white
+        pr-14"
+                        />
+
+                        <button
+                            type="button"
+
+                            onClick={() =>
+                                setShowPassword(
+                                    !showPassword
+                                )
+                            }
+
+                            className="
+        absolute
+        right-5
+        top-1/2
+        -translate-y-1/2
+        text-slate-400
+        hover:text-white
+        transition"
+                        >
+
+                            {showPassword
+                                ? <EyeOff size={22} />
+                                : <Eye size={22} />
+                            }
+
+                        </button>
+
+                    </div>
 
                     <motion.button
                         whileHover={{
