@@ -4,29 +4,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource
+    corsConfigurationSource() {
 
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        configuration.setAllowedOrigins(
-                List.of(
-                        "https://enterprise-wms-frontend.onrender.com",
-                        "http://localhost:3000"
+        configuration.setAllowedOriginPatterns(
+                Arrays.asList(
+                        "*"
                 )
         );
 
         configuration.setAllowedMethods(
-                List.of(
+                Arrays.asList(
                         "GET",
                         "POST",
                         "PUT",
@@ -36,10 +36,12 @@ public class CorsConfig {
         );
 
         configuration.setAllowedHeaders(
-                List.of("*")
+                Arrays.asList("*")
         );
 
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(
+                true
+        );
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
