@@ -67,7 +67,7 @@ public class AuthController {
         );
 
         user.setRole(
-                "ADMIN"
+                "ROLE_ADMIN"
         );
 
         return authService
@@ -89,7 +89,7 @@ public class AuthController {
         );
 
         user.setRole(
-                "OPERATOR"
+                "ROLE_OPERATOR"
         );
 
         return authService

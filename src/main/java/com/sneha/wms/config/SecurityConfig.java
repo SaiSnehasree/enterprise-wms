@@ -47,10 +47,15 @@ public class SecurityConfig {
 
                         auth
 
-                                // PUBLIC AUTH
+                                // PUBLIC ENDPOINTS
                                 .requestMatchers(
-                                        "/auth/**",
-                                        "/ai/**"
+                                        "/auth/login",
+                                        "/auth/register",
+                                        "/auth/add-sample-user",
+                                        "/auth/add-operator",
+                                        "/auth/login-test",
+                                        "/ai/**",
+                                        "/error"
                                 )
                                 .permitAll()
 
@@ -72,6 +77,7 @@ public class SecurityConfig {
                                         "OPERATOR"
                                 )
 
+                                // EVERYTHING ELSE
                                 .anyRequest()
                                 .authenticated()
                 )

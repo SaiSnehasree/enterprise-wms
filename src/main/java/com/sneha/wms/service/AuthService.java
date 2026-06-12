@@ -5,66 +5,66 @@ import com.sneha.wms.repository.UserRepository;
 import com.sneha.wms.security.jwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UserRepository
-            userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private jwtUtil
-            jwtUtil;
+    private jwtUtil jwtUtil;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // REGISTER USER
-    public User
-    register(
+    public User register(
             User user
     ) {
 
-        return userRepository
-                .save(user);
+        user.setPassword(
+                passwordEncoder.encode(
+                        user.getPassword()
+                )
+        );
+
+        return userRepository.save(user);
     }
 
     // LOGIN USER
-    public String
-    login(
+    public String login(
             String email,
             String password
     ) {
 
         User user =
                 userRepository
-                        .findByEmail(
-                                email
-                        )
-
+                        .findByEmail(email)
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found!"
                                 )
                         );
 
-        if (
-                !user.getPassword()
-                        .equals(
-                                password
-                        )
-        ) {
+        boolean isValidPassword =
+                passwordEncoder.matches(
+                        password,
+                        user.getPassword()
+                );
+
+        if (!isValidPassword) {
 
             throw new RuntimeException(
                     "Invalid password!"
             );
         }
 
-        return jwtUtil
-                .generateToken(
-
-                        email,
-
-                        user.getRole()
-                );
+        return jwtUtil.generateToken(
+                email,
+                user.getRole()
+        );
     }
 }
