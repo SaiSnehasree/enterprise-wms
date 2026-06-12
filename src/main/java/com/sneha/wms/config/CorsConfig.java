@@ -2,6 +2,7 @@ package com.sneha.wms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -12,36 +13,40 @@ import java.util.List;
 public class CorsConfig {
 
     @Bean
-    public CorsConfigurationSource
-    corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration config =
+        CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        config.setAllowedOrigins(
+        configuration.setAllowedOrigins(
                 List.of(
+                        "https://enterprise-wms-frontend.onrender.com",
                         "http://localhost:3000"
-                ));
+                )
+        );
 
-        config.setAllowedMethods(
+        configuration.setAllowedMethods(
                 List.of(
                         "GET",
                         "POST",
                         "PUT",
-                        "DELETE"
-                ));
+                        "DELETE",
+                        "OPTIONS"
+                )
+        );
 
-        config.setAllowedHeaders(
+        configuration.setAllowedHeaders(
                 List.of("*")
         );
 
-        UrlBasedCorsConfigurationSource
-                source =
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration(
                 "/**",
-                config
+                configuration
         );
 
         return source;
