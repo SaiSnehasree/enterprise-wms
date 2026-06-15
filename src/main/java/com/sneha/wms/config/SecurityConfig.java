@@ -55,7 +55,8 @@ public class SecurityConfig {
                                         "/auth/add-operator",
                                         "/auth/login-test",
                                         "/ai/**",
-                                        "/error"
+                                        "/error",
+                                        "/products/qr/**"
                                 )
                                 .permitAll()
 
